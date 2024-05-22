@@ -1,0 +1,20 @@
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY . .
+
+RUN python -m venv /app/venv
+
+ENV PATH="/app/venv/bin:$PATH"
+
+RUN pip install --upgrade pip
+
+RUN cd core && pip install -r requirements.txt
+
+EXPOSE 8000 
+
+ENV DJANGO_SETTINGS_MODULE=core.settings
+
+CMD ["python", "core/manage.py", "runserver", "0.0.0.0:8000"]
